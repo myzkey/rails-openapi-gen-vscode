@@ -1,22 +1,133 @@
 import { vi } from 'vitest'
 
-export interface ExtensionContext {
-  subscriptions: any[]
-  extensionUri: any
+export interface Uri {
+  scheme: string
+  authority: string
+  path: string
+  query: string
+  fragment: string
+  fsPath: string
+  with: (
+    change: Partial<{
+      scheme: string
+      authority: string
+      path: string
+      query: string
+      fragment: string
+    }>
+  ) => Uri
+  toJSON: () => object
+}
+
+export interface Disposable {
+  dispose(): void
+}
+
+export interface Memento {
+  get<T>(key: string): T | undefined
+  get<T>(key: string, defaultValue: T): T
+  update(key: string, value: unknown): Thenable<void>
+  keys(): readonly string[]
+}
+
+export interface SecretStorage {
+  get(key: string): Thenable<string | undefined>
+  store(key: string, value: string): Thenable<void>
+  delete(key: string): Thenable<void>
+  onDidChange: Event<SecretStorageChangeEvent>
+}
+
+export interface SecretStorageChangeEvent {
+  key: string
+}
+
+export interface Event<T> {
+  (listener: (e: T) => unknown, thisArgs?: unknown, disposables?: Disposable[]): Disposable
+}
+
+export interface EnvironmentVariableMutatorOptions {
+  applyAtProcessCreation?: boolean
+  applyAtShellIntegration?: boolean
+}
+
+export interface EnvironmentVariableMutator {
+  readonly type: EnvironmentVariableMutatorType
+  readonly value: string
+  readonly options: EnvironmentVariableMutatorOptions
+}
+
+export enum EnvironmentVariableMutatorType {
+  Replace = 1,
+  Append = 2,
+  Prepend = 3,
+}
+
+export interface WorkspaceFolder {
+  uri: Uri
+  name: string
+  index: number
+}
+
+export interface EnvironmentVariableScope {
+  workspaceFolder?: WorkspaceFolder
+}
+
+export interface ScopedEnvironmentVariableCollection {
+  persistent: boolean
+  description: string
+  replace: (variable: string, value: string, options?: EnvironmentVariableMutatorOptions) => void
+  append: (variable: string, value: string, options?: EnvironmentVariableMutatorOptions) => void
+  prepend: (variable: string, value: string, options?: EnvironmentVariableMutatorOptions) => void
+  get: (variable: string) => EnvironmentVariableMutator | undefined
+  forEach: (
+    callback: (
+      variable: string,
+      mutator: EnvironmentVariableMutator,
+      collection: ScopedEnvironmentVariableCollection
+    ) => void
+  ) => void
+  delete: (variable: string) => void
+  clear: () => void
+  [Symbol.iterator]: () => Iterator<[variable: string, mutator: EnvironmentVariableMutator]>
+}
+
+export interface GlobalEnvironmentVariableCollection extends ScopedEnvironmentVariableCollection {
+  getScoped: (scope: EnvironmentVariableScope) => ScopedEnvironmentVariableCollection
+}
+
+export interface LanguageModelAccessInformation {
+  canSendRequest: (languageModelId: string) => boolean | undefined
+  onDidChange: Event<void>
+}
+
+export interface Extension<T> {
+  id: string
+  extensionUri: Uri
   extensionPath: string
-  asAbsolutePath: (path: string) => string
+  isActive: boolean
+  packageJSON: Record<string, unknown>
+  exports: T | undefined
+  activate(): Thenable<T>
+}
+
+export interface ExtensionContext {
+  subscriptions: Disposable[]
+  extensionUri: Uri
+  extensionPath: string
+  asAbsolutePath: (relativePath: string) => string
   storagePath?: string
   globalStoragePath: string
   logPath: string
   extensionMode: ExtensionMode
-  storageUri: any
-  globalStorageUri: any
-  logUri: any
-  extension: any
-  workspaceState: any
-  globalState: any
-  secrets: any
-  environmentVariableCollection: any
+  storageUri: Uri
+  globalStorageUri: Uri
+  logUri: Uri
+  extension: Extension<unknown>
+  workspaceState: Memento
+  globalState: Memento & { setKeysForSync(keys: readonly string[]): void }
+  secrets: SecretStorage
+  environmentVariableCollection: GlobalEnvironmentVariableCollection
+  languageModelAccessInformation: LanguageModelAccessInformation
 }
 
 export enum ExtensionMode {
@@ -37,7 +148,7 @@ export const window = {
 }
 
 export const workspace = {
-  workspaceFolders: undefined as any,
+  workspaceFolders: undefined as WorkspaceFolder[] | undefined,
   getConfiguration: vi.fn(() => ({
     get: vi.fn(() => false),
   })),

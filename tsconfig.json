@@ -12,5 +12,5 @@
     "forceConsistentCasingInFileNames": true,
     "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
-  "exclude": ["node_modules", ".vscode-test", "src/**/*.test.ts", "src/**/*.spec.ts"]
+  "exclude": ["node_modules", ".vscode-test", "vitest.config.mts"]
 }

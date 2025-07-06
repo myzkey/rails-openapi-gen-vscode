@@ -2,63 +2,93 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import * as vscode from 'vscode'
 import { activate, deactivate } from '../extension'
 
+function createMockExtensionContext(): vscode.ExtensionContext {
+  return {
+    subscriptions: [],
+    extensionUri: {} as vscode.Uri,
+    extensionPath: '/test/path',
+    asAbsolutePath: vi.fn().mockImplementation((path: string) => `/test/path/${path}`),
+    storagePath: '/test/storage',
+    globalStoragePath: '/test/global-storage',
+    logPath: '/test/logs',
+    extensionMode: vscode.ExtensionMode.Test,
+    storageUri: {} as vscode.Uri,
+    globalStorageUri: {} as vscode.Uri,
+    logUri: {} as vscode.Uri,
+    extension: {} as vscode.Extension<unknown>,
+    workspaceState: {
+      get: vi.fn(),
+      update: vi.fn(),
+      keys: vi.fn().mockReturnValue([]),
+    },
+    globalState: {
+      get: vi.fn(),
+      update: vi.fn(),
+      keys: vi.fn().mockReturnValue([]),
+      setKeysForSync: vi.fn(),
+    },
+    secrets: {
+      get: vi.fn(),
+      store: vi.fn(),
+      delete: vi.fn(),
+      onDidChange: vi.fn(),
+    },
+    environmentVariableCollection: {
+      persistent: true,
+      description: '',
+      replace: vi.fn(),
+      append: vi.fn(),
+      prepend: vi.fn(),
+      get: vi.fn(),
+      forEach: vi.fn(),
+      delete: vi.fn(),
+      clear: vi.fn(),
+      getScoped: vi.fn(),
+      [Symbol.iterator]: vi.fn(),
+    },
+    languageModelAccessInformation: {
+      canSendRequest: vi.fn(),
+      onDidChange: vi.fn(),
+    },
+  }
+}
+
+vi.mock('vscode', () => ({
+  commands: {
+    registerCommand: vi.fn(),
+  },
+  languages: {
+    createDiagnosticCollection: vi.fn(),
+    registerCompletionItemProvider: vi.fn(),
+    registerHoverProvider: vi.fn(),
+  },
+  workspace: {
+    onDidSaveTextDocument: vi.fn(),
+    onDidChangeTextDocument: vi.fn(),
+    workspaceFolders: [],
+  },
+  window: {
+    createTerminal: vi.fn(),
+    showInformationMessage: vi.fn(),
+    showErrorMessage: vi.fn(),
+  },
+  ExtensionMode: {
+    Test: 3,
+  },
+}))
+
 describe('Extension Test Suite', () => {
   let mockContext: vscode.ExtensionContext
 
   beforeEach(() => {
-    // Reset all mocks
     vi.clearAllMocks()
-
-    // Create mock context
-    mockContext = {
-      subscriptions: [],
-      extensionUri: {} as vscode.Uri,
-      extensionPath: '/test/path',
-      asAbsolutePath: vi.fn((path) => `/test/path/${path}`),
-      storagePath: '/test/storage',
-      globalStoragePath: '/test/global-storage',
-      logPath: '/test/logs',
-      extensionMode: vscode.ExtensionMode.Test,
-      storageUri: {} as vscode.Uri,
-      globalStorageUri: {} as vscode.Uri,
-      logUri: {} as vscode.Uri,
-      extension: {} as vscode.Extension<any>,
-      workspaceState: {
-        get: vi.fn(),
-        update: vi.fn(),
-        keys: vi.fn(() => []),
-      },
-      globalState: {
-        get: vi.fn(),
-        update: vi.fn(),
-        keys: vi.fn(() => []),
-        setKeysForSync: vi.fn(),
-      },
-      secrets: {
-        get: vi.fn(),
-        store: vi.fn(),
-        delete: vi.fn(),
-        onDidChange: vi.fn(),
-      },
-      environmentVariableCollection: {
-        persistent: true,
-        description: '',
-        replace: vi.fn(),
-        append: vi.fn(),
-        prepend: vi.fn(),
-        get: vi.fn(),
-        forEach: vi.fn(),
-        delete: vi.fn(),
-        clear: vi.fn(),
-      },
-    }
+    mockContext = createMockExtensionContext()
   })
 
   describe('activate', () => {
     it('should register all commands', () => {
       activate(mockContext)
 
-      // Check that commands were registered
       expect(vscode.commands.registerCommand).toHaveBeenCalledWith(
         'railsOpenapiGen.generate',
         expect.any(Function)
@@ -76,15 +106,12 @@ describe('Extension Test Suite', () => {
     it('should create diagnostic collection', () => {
       activate(mockContext)
 
-      expect(vscode.languages.createDiagnosticCollection).toHaveBeenCalledWith(
-        'rails-openapi-gen'
-      )
+      expect(vscode.languages.createDiagnosticCollection).toHaveBeenCalledWith('rails-openapi-gen')
     })
 
     it('should register completion providers', () => {
       activate(mockContext)
 
-      // Should register multiple completion providers
       expect(vscode.languages.registerCompletionItemProvider).toHaveBeenCalled()
     })
 
@@ -123,9 +150,7 @@ describe('Command Handlers', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    mockContext = {
-      subscriptions: [],
-    } as any
+    mockContext = createMockExtensionContext()
   })
 
   describe('railsOpenapiGen.generate', () => {
@@ -134,19 +159,27 @@ describe('Command Handlers', () => {
         show: vi.fn(),
         sendText: vi.fn(),
       }
-      ;(vscode.window.createTerminal as any).mockReturnValue(mockTerminal)
-      ;(vscode.workspace as any).workspaceFolders = [{ uri: { fsPath: '/test/workspace' } }]
+
+      const mockCreateTerminal = vi.mocked(vscode.window.createTerminal)
+      mockCreateTerminal.mockReturnValue(mockTerminal as unknown as vscode.Terminal)
+
+      const mockWorkspace = vi.mocked(vscode.workspace)
+      mockWorkspace.workspaceFolders = [
+        { uri: { fsPath: '/test/workspace' } },
+      ] as vscode.WorkspaceFolder[]
 
       activate(mockContext)
 
-      // Find and execute the generate command
-      const generateCommand = (vscode.commands.registerCommand as any).mock.calls.find(
-        (call: any) => call[0] === 'railsOpenapiGen.generate'
-      )?.[1]
+      const registerCommandMock = vi.mocked(vscode.commands.registerCommand)
+      const generateCall = registerCommandMock.mock.calls.find(
+        call => call[0] === 'railsOpenapiGen.generate'
+      )
+      expect(generateCall).toBeDefined()
 
-      expect(generateCommand).toBeDefined()
-
-      // Execute the command
+      const generateCommand = generateCall?.[1]
+      if (!generateCommand) {
+        throw new Error('Generate command not found')
+      }
       generateCommand()
 
       expect(vscode.window.createTerminal).toHaveBeenCalledWith('Rails OpenAPI Gen')
@@ -158,14 +191,21 @@ describe('Command Handlers', () => {
     })
 
     it('should show error when no workspace folder', () => {
-      ;(vscode.workspace as any).workspaceFolders = undefined
+      const mockWorkspace = vi.mocked(vscode.workspace)
+      mockWorkspace.workspaceFolders = undefined
 
       activate(mockContext)
 
-      const generateCommand = (vscode.commands.registerCommand as any).mock.calls.find(
-        (call: any) => call[0] === 'railsOpenapiGen.generate'
-      )?.[1]
+      const registerCommandMock = vi.mocked(vscode.commands.registerCommand)
+      const generateCall = registerCommandMock.mock.calls.find(
+        call => call[0] === 'railsOpenapiGen.generate'
+      )
+      expect(generateCall).toBeDefined()
 
+      const generateCommand = generateCall?.[1]
+      if (!generateCommand) {
+        throw new Error('Generate command not found')
+      }
       generateCommand()
 
       expect(vscode.window.showErrorMessage).toHaveBeenCalledWith('No workspace folder found')
