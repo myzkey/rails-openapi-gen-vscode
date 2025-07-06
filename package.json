@@ -1,0 +1,84 @@
+{
+  "name": "rails-openapi-gen-vscode",
+  "displayName": "Rails OpenAPI Gen",
+  "description": "VSCode extension for rails-openapi-gen with syntax highlighting, linting, and code generation support",
+  "version": "0.0.1",
+  "publisher": "rails-openapi-gen",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "rails",
+    "openapi",
+    "jbuilder",
+    "ruby",
+    "api documentation"
+  ],
+  "activationEvents": [
+    "onLanguage:ruby",
+    "workspaceContains:**/*.jbuilder"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "railsOpenapiGen.generate",
+        "title": "OpenAPI: Generate"
+      },
+      {
+        "command": "railsOpenapiGen.check",
+        "title": "OpenAPI: Check"
+      },
+      {
+        "command": "railsOpenapiGen.lint",
+        "title": "OpenAPI: Lint Current File"
+      }
+    ],
+    "grammars": [
+      {
+        "scopeName": "openapi.injection",
+        "path": "./syntaxes/openapi.tmLanguage.json",
+        "injectTo": [
+          "source.ruby",
+          "text.html.ruby",
+          "comment.block.documentation.ruby"
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "Rails OpenAPI Gen",
+      "properties": {
+        "railsOpenapiGen.lintOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable linting of @openapi comments on save"
+        },
+        "railsOpenapiGen.lintOnChange": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable real-time linting of @openapi comments as you type"
+        },
+        "railsOpenapiGen.generateOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Run 'rails openapi:generate' on save"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^5.3.0"
+  }
+}

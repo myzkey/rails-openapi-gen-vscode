@@ -1,0 +1,121 @@
+{
+  "scopeName": "openapi.injection",
+  "injectionSelector": "L:comment.line.number-sign.ruby, L:comment.block.documentation.ruby",
+  "patterns": [
+    {
+      "match": "(@openapi)\\s+(.+)$",
+      "captures": {
+        "1": {
+          "name": "storage.type.annotation.openapi"
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#openapi-content"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "match": "(@openapi_operation)\\s*$",
+      "name": "storage.type.annotation.openapi"
+    },
+    {
+      "match": "\\s*(summary|tags|description|response_description|parameters|requestBody|responses)\\s*(:)",
+      "captures": {
+        "1": {
+          "name": "keyword.other.openapi.operation"
+        },
+        "2": {
+          "name": "punctuation.separator.key-value.openapi"
+        }
+      }
+    },
+    {
+      "match": "\\[(\\w+(?:,\\s*\\w+)*)\\]",
+      "name": "meta.array.tags.openapi",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "match": "\\w+",
+              "name": "entity.name.tag.openapi"
+            },
+            {
+              "match": ",",
+              "name": "punctuation.separator.array.openapi"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "match": "\"[^\"]*\"",
+      "name": "string.quoted.double.openapi"
+    }
+  ],
+  "repository": {
+    "openapi-content": {
+      "patterns": [
+        {
+          "match": "(\\w+)(:)(integer|string|boolean|number|array|object|null)\\b",
+          "captures": {
+            "1": {
+              "name": "variable.other.property.openapi"
+            },
+            "2": {
+              "name": "punctuation.separator.key-value"
+            },
+            "3": {
+              "name": "support.type.primitive.openapi"
+            }
+          }
+        },
+        {
+          "match": "(required)(:)(true|false)\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.other.openapi"
+            },
+            "2": {
+              "name": "punctuation.separator.key-value"
+            },
+            "3": {
+              "name": "constant.language.boolean"
+            }
+          }
+        },
+        {
+          "match": "(description|example|format|enum|nullable)(:)",
+          "captures": {
+            "1": {
+              "name": "keyword.other.openapi"
+            },
+            "2": {
+              "name": "punctuation.separator.key-value"
+            }
+          }
+        },
+        {
+          "match": "\"[^\"]*\"",
+          "name": "string.quoted.double.ruby"
+        },
+        {
+          "match": "\\[(\\w+(?:,\\s*\\w+)*)\\]",
+          "name": "meta.array.openapi",
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "match": "\\w+",
+                  "name": "entity.name.tag.openapi"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
