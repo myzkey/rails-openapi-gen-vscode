@@ -72,7 +72,7 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "lint": "eslint src --ext ts",
@@ -85,7 +85,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
-    "@types/node": "16.x",
+    "@types/node": "^20.0.0",
     "@types/vscode": "^1.74.0",
     "vite": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
