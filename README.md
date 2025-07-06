@@ -84,13 +84,13 @@ Configure the extension in VSCode settings:
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Compile TypeScript
-npm run compile
+pnpm run compile
 
 # Watch mode for development
-npm run watch
+pnpm run watch
 ```
 
 ## Roadmap
