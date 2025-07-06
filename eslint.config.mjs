@@ -39,7 +39,12 @@ export default tseslint.config(
           selector: 'memberLike',
           modifiers: ['private'],
           format: ['camelCase'],
-          leadingUnderscore: 'require',
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'classProperty',
+          modifiers: ['readonly'],
+          format: ['UPPER_CASE', 'camelCase'],
         },
         {
           selector: 'typeLike',
