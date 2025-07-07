@@ -1,5 +1,5 @@
-import { OpenApiComment } from './openapi-comment'
-import { JBuilderField } from './jbuilder-field'
+import { OpenApiComment } from '~/domain/openapi-comment'
+import { JBuilderField } from '~/domain/jbuilder-field'
 
 /**
  * Domain entity representing a lint violation

@@ -1,4 +1,4 @@
-import { LintViolation } from '../../domain/lint-rule'
+import { LintViolation } from '~/domain/lint-rule'
 
 /**
  * Port interface for diagnostic operations

@@ -1,5 +1,5 @@
-import { HoverProvider, Hover, TextDocument, Position } from '../application/port/hover-port'
-import { HoverUseCase } from '../application/hover-use-case'
+import { HoverProvider, Hover, TextDocument, Position } from '~/application/port/hover-port'
+import { HoverUseCase } from '~/application/hover-use-case'
 
 /**
  * Hover provider for @openapi comments

@@ -3,7 +3,7 @@ import {
   ConfigurationPort,
   ConfigurationChangeEvent,
   Disposable,
-} from '../../application/port/configuration-port'
+} from '~/application/port/configuration-port'
 
 /**
  * VS Code implementation of ConfigurationPort

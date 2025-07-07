@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
-import { DiagnosticPort } from '../../application/port/diagnostic-port'
-import { LintViolation, LintSeverity } from '../../domain/lint-rule'
+import { DiagnosticPort } from '~/application/port/diagnostic-port'
+import { LintViolation, LintSeverity } from '~/domain/lint-rule'
 
 /**
  * VS Code implementation of DiagnosticPort

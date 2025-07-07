@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { JBuilderField, JBuilderFieldExtractor } from '../../domain/jbuilder-field'
+import { JBuilderField, JBuilderFieldExtractor } from '~/domain/jbuilder-field'
 
 describe('JBuilderField', () => {
   describe('shouldBeDocumented', () => {

@@ -1,4 +1,4 @@
-import { Position, TextDocument } from './completion-port'
+import { Position, TextDocument } from '~/application/port/completion-port'
 
 export { Position, TextDocument }
 

@@ -3,12 +3,12 @@ import {
   CompletionItem,
   TextDocument,
   Position,
-} from '../application/port/completion-port'
+} from '~/application/port/completion-port'
 import {
   CompletionUseCase,
   FieldTypeCompletionUseCase,
   AttributeCompletionUseCase,
-} from '../application/completion-use-case'
+} from '~/application/completion-use-case'
 
 /**
  * Completion provider for @openapi comments
