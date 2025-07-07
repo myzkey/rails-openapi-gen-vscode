@@ -6,7 +6,7 @@ import {
   TextDocument,
   Position,
   Disposable,
-} from '../../application/port/hover-port'
+} from '~/application/port/hover-port'
 
 /**
  * VS Code implementation of HoverPort

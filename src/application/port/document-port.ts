@@ -1,4 +1,4 @@
-import { TextDocument } from './completion-port'
+import { TextDocument } from '~/application/port/completion-port'
 
 /**
  * Port interface for document operations
