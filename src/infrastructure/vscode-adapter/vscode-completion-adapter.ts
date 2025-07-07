@@ -7,7 +7,7 @@ import {
   TextDocument,
   Position,
   Disposable,
-} from '../../application/port/completion-port'
+} from '~/application/port/completion-port'
 
 /**
  * VS Code implementation of CompletionPort

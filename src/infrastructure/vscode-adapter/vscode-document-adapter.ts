@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
-import { DocumentPort, Disposable } from '../../application/port/document-port'
-import { TextDocument } from '../../application/port/completion-port'
+import { DocumentPort, Disposable } from '~/application/port/document-port'
+import { TextDocument } from '~/application/port/completion-port'
 
 /**
  * VS Code implementation of DocumentPort

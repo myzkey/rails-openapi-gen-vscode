@@ -7,9 +7,9 @@ import {
   MissingDocumentationRule,
   LintRuleRunner,
   LintContext,
-} from '../../domain/lint-rule'
-import { OpenApiComment } from '../../domain/openapi-comment'
-import { JBuilderField } from '../../domain/jbuilder-field'
+} from '~/domain/lint-rule'
+import { OpenApiComment } from '~/domain/openapi-comment'
+import { JBuilderField } from '~/domain/jbuilder-field'
 
 describe('TypeRequiredRule', () => {
   const rule = new TypeRequiredRule()

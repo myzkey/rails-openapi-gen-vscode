@@ -1,8 +1,8 @@
-import { DiagnosticPort } from './port/diagnostic-port'
-import { DocumentParser } from '../domain/document-parser'
-import { JBuilderFieldExtractor } from '../domain/jbuilder-field'
-import { LintRuleRunner, LintContext } from '../domain/lint-rule'
-import { TextDocument } from './port/completion-port'
+import { DiagnosticPort } from '~/application/port/diagnostic-port'
+import { DocumentParser } from '~/domain/document-parser'
+import { JBuilderFieldExtractor } from '~/domain/jbuilder-field'
+import { LintRuleRunner, LintContext } from '~/domain/lint-rule'
+import { TextDocument } from '~/application/port/completion-port'
 
 /**
  * Use case for linting JBuilder documents

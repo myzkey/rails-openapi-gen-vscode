@@ -1,5 +1,5 @@
-import { OpenApiComment } from './openapi-comment'
-import { OpenApiOperation } from './openapi-operation'
+import { OpenApiComment } from '~/domain/openapi-comment'
+import { OpenApiOperation } from '~/domain/openapi-operation'
 
 /**
  * Domain service for parsing JBuilder documents

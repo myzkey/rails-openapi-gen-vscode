@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { TerminalPort } from '../../application/port/terminal-port'
+import { TerminalPort } from '~/application/port/terminal-port'
 
 /**
  * VS Code implementation of TerminalPort

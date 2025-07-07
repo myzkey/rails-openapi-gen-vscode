@@ -1,17 +1,17 @@
 import * as vscode from 'vscode'
 
 // Use Cases
-import { LintUseCase } from '../application/lint-use-case'
-import { GenerateUseCase } from '../application/generate-use-case'
-import { CheckUseCase } from '../application/check-use-case'
+import { LintUseCase } from '~/application/lint-use-case'
+import { GenerateUseCase } from '~/application/generate-use-case'
+import { CheckUseCase } from '~/application/check-use-case'
 
 // Adapters
-import { VsCodeTerminalAdapter } from '../infrastructure/vscode-adapter/vscode-terminal-adapter'
-import { VsCodeDiagnosticAdapter } from '../infrastructure/vscode-adapter/vscode-diagnostic-adapter'
-import { VsCodeDocumentAdapter } from '../infrastructure/vscode-adapter/vscode-document-adapter'
-import { VsCodeCompletionAdapter } from '../infrastructure/vscode-adapter/vscode-completion-adapter'
-import { VsCodeHoverAdapter } from '../infrastructure/vscode-adapter/vscode-hover-adapter'
-import { VsCodeConfigurationAdapter } from '../infrastructure/vscode-adapter/vscode-configuration-adapter'
+import { VsCodeTerminalAdapter } from '~/infrastructure/vscode-adapter/vscode-terminal-adapter'
+import { VsCodeDiagnosticAdapter } from '~/infrastructure/vscode-adapter/vscode-diagnostic-adapter'
+import { VsCodeDocumentAdapter } from '~/infrastructure/vscode-adapter/vscode-document-adapter'
+import { VsCodeCompletionAdapter } from '~/infrastructure/vscode-adapter/vscode-completion-adapter'
+import { VsCodeHoverAdapter } from '~/infrastructure/vscode-adapter/vscode-hover-adapter'
+import { VsCodeConfigurationAdapter } from '~/infrastructure/vscode-adapter/vscode-configuration-adapter'
 
 // Providers
 import {

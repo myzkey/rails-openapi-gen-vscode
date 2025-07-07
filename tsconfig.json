@@ -10,7 +10,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vitest/globals", "@testing-library/jest-dom"]
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+    }
   },
   "exclude": ["node_modules", ".vscode-test", "vitest.config.mts"]
 }

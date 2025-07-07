@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import {
-  OpenApiComment,
-  OpenApiCommentParser,
-  isValidOpenApiType,
-} from '../../domain/openapi-comment'
+import { OpenApiComment, OpenApiCommentParser, isValidOpenApiType } from '~/domain/openapi-comment'
 
 describe('OpenApiComment', () => {
   describe('parse', () => {

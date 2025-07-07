@@ -1,6 +1,11 @@
-import { CompletionItem, CompletionItemKind, TextDocument, Position } from './port/completion-port'
-import { JBuilderFieldExtractor } from '../domain/jbuilder-field'
-import { OpenApiType, isValidOpenApiType } from '../domain/openapi-comment'
+import {
+  CompletionItem,
+  CompletionItemKind,
+  TextDocument,
+  Position,
+} from '~/application/port/completion-port'
+import { JBuilderFieldExtractor } from '~/domain/jbuilder-field'
+import { OpenApiType, isValidOpenApiType } from '~/domain/openapi-comment'
 
 /**
  * Use case for providing code completions

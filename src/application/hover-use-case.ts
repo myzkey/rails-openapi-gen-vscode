@@ -1,5 +1,5 @@
-import { Hover, TextDocument, Position } from './port/hover-port'
-import { OpenApiComment } from '../domain/openapi-comment'
+import { Hover, TextDocument, Position } from '~/application/port/hover-port'
+import { OpenApiComment } from '~/domain/openapi-comment'
 
 /**
  * Use case for providing hover information

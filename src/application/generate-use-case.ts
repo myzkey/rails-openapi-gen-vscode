@@ -1,4 +1,4 @@
-import { TerminalPort } from './port/terminal-port'
+import { TerminalPort } from '~/application/port/terminal-port'
 
 /**
  * Use case for generating OpenAPI documentation
